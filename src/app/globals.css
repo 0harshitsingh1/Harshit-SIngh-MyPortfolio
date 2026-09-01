@@ -1,0 +1,47 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #0a0a0f;
+  --color-accent-coral: #e35d5b;
+  --color-accent-orange: #f59e0b;
+  --color-accent-purple: #9333ea;
+  --font-sans: var(--font-inter);
+  --font-heading: var(--font-space-grotesk);
+}
+
+@layer base {
+  body {
+    background-color: var(--color-background);
+    color: #f3f4f6; /* gray-100 */
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-image: 
+      radial-gradient(circle at top left, rgba(227, 93, 91, 0.05), transparent 50%),
+      radial-gradient(circle at bottom right, rgba(245, 158, 11, 0.05), transparent 50%);
+    background-attachment: fixed;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    letter-spacing: -0.025em;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-full bg-[#e35d5b] text-white px-6 py-3 font-medium transition-all hover:bg-[#d44d4b] active:scale-95;
+  }
+  
+  .btn-secondary {
+    @apply inline-flex items-center justify-center rounded-full border border-[#e35d5b] text-[#e35d5b] px-6 py-3 font-medium transition-all hover:bg-[#e35d5b]/10 active:scale-95;
+  }
+
+  .glass-card {
+    @apply rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-md;
+  }
+  
+  .text-gradient {
+    @apply bg-gradient-to-r from-[#e35d5b] via-[#f59e0b] to-[#9333ea] bg-clip-text text-transparent;
+  }
+}
