@@ -45,3 +45,10 @@
     @apply bg-gradient-to-r from-[#e35d5b] via-[#f59e0b] to-[#9333ea] bg-clip-text text-transparent;
   }
 }
+
+@keyframes gradient {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
+.animate-gradient-flow { animation: gradient 3s linear infinite; }
