@@ -3,55 +3,90 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
 const navLinks = [
-  { name: "Home", href: "/" },
-  { name: "About Me", href: "/about" },
-  { name: "Work", href: "/work" },
-  { name: "Skills", href: "/skills" },
-  { name: "Projects", href: "/projects" },
-  { name: "Certifications", href: "/certifications" },
-  { name: "Contact", href: "/contact" },
+  { name: "Home", href: "#home" },
+  { name: "About Me", href: "#about" },
+  { name: "Work", href: "#work" },
+  { name: "Skills", href: "#skills" },
+  { name: "Projects", href: "#projects" },
+  { name: "Certifications", href: "#certifications" },
+  { name: "Contact", href: "#contact" },
 ];
 
 export default function Navbar() {
-  const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("#home");
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(`#${entry.target.id}`);
+          }
+        });
+      },
+      { rootMargin: "-40% 0px -60% 0px" } // Triggers when element crosses the middle of the screen
+    );
+
+    navLinks.forEach((link) => {
+      const id = link.href.substring(1);
+      const element = document.getElementById(id);
+      if (element) {
+        observer.observe(element);
+      }
+    });
+
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <>
       <nav className="sticky top-0 z-50 w-full border-b border-white/10 bg-[#0a0a0f]/80 backdrop-blur-md">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          <div className="flex h-16 items-center justify-between">
+        <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
+          <div className="flex h-20 items-center justify-between">
+            {/* Logo */}
             <div className="flex-shrink-0">
-              <Link href="/" className="text-xl font-bold">
+              <Link href="#home" className="text-2xl font-bold tracking-tight">
                 <span className="text-white">Harshit</span>
                 <span className="text-[#e35d5b]">Singh</span>
               </Link>
             </div>
-            <div className="hidden md:block">
-              <div className="ml-10 flex items-center space-x-2">
+
+            {/* Desktop Links (Right Aligned) */}
+            <div className="hidden lg:block">
+              <div className="ml-10 flex items-center space-x-4">
                 {navLinks.map((link) => {
-                  const isActive = pathname === link.href;
+                  const isActive = activeSection === link.href;
                   return (
                     <Link
                       key={link.name}
                       href={link.href}
-                      className={`px-4 py-2 text-sm font-medium transition-all rounded-full ${
+                      className={`relative px-4 py-2 text-sm font-medium transition-colors rounded-full ${
                         isActive
-                          ? "bg-[#e35d5b] text-white"
-                          : "text-gray-400 hover:text-white hover:bg-white/10"
+                          ? "text-white"
+                          : "text-gray-400 hover:text-white"
                       }`}
                     >
-                      {link.name}
+                      {isActive && (
+                        <motion.div
+                          layoutId="navbar-indicator-pill"
+                          className="absolute inset-0 bg-[#e35d5b] rounded-full -z-10"
+                          transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                        />
+                      )}
+                      <span className="relative z-10">{link.name}</span>
                     </Link>
                   );
                 })}
               </div>
             </div>
-            <div className="-mr-2 flex md:hidden">
+
+            {/* Mobile Menu Toggle */}
+            <div className="-mr-2 flex lg:hidden">
               <button
                 onClick={() => setIsOpen(!isOpen)}
                 className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-white/10 hover:text-white focus:outline-none"
@@ -76,16 +111,16 @@ export default function Navbar() {
           >
             <div className="flex flex-col space-y-4 pt-16">
               {navLinks.map((link) => {
-                const isActive = pathname === link.href;
+                const isActive = activeSection === link.href;
                 return (
                   <Link
                     key={link.name}
                     href={link.href}
                     onClick={() => setIsOpen(false)}
-                    className={`block px-4 py-3 text-lg font-medium rounded-xl transition-all ${
+                    className={`block px-4 py-3 text-lg font-medium transition-all ${
                       isActive
-                        ? "bg-[#e35d5b] text-white"
-                        : "text-gray-400 hover:text-white hover:bg-white/10"
+                        ? "text-[#e35d5b] bg-[#e35d5b]/10 rounded-xl"
+                        : "text-gray-400 hover:text-white hover:bg-white/10 rounded-xl"
                     }`}
                   >
                     {link.name}

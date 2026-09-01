@@ -37,9 +37,9 @@ const itemVariants: Variants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
 };
 
-export default function Work() {
+export default function WorkSection({ id }: { id?: string }) {
   return (
-    <main className="min-h-[calc(100vh-160px)] flex flex-col items-center justify-center py-20 overflow-hidden relative">
+    <section id={id || "work"} className="min-h-[calc(100vh-64px)] flex flex-col items-center justify-center py-20 overflow-hidden relative">
       
       {/* Background Motifs */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none flex items-center justify-center">
@@ -107,7 +107,6 @@ export default function Work() {
         </motion.div>
 
       </div>
-    </main>
+    </section>
   );
 }
- 

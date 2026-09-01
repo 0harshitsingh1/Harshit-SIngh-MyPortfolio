@@ -4,6 +4,12 @@ import { motion, Variants } from "framer-motion";
 import Link from "next/link";
 import { ArrowDown } from "lucide-react";
 import { useEffect, useState } from "react";
+import AboutSection from "@/components/AboutSection";
+import WorkSection from "@/components/WorkSection";
+import SkillsSection from "@/components/SkillsSection";
+import ProjectsSection from "@/components/ProjectsSection";
+import CertificationsSection from "@/components/CertificationsSection";
+import ContactSection from "@/components/ContactSection";
 
 const roles = ["Tech Enthusiast", "Developer", "Designer", "Coder", "Problem solver"];
 
@@ -79,7 +85,8 @@ export default function Home() {
   };
 
   return (
-    <main className="relative flex min-h-[calc(100vh-160px)] flex-col items-center justify-center overflow-hidden py-16">
+    <main className="flex flex-col">
+      <section id="home" className="relative flex min-h-[calc(100vh-64px)] flex-col items-center justify-center overflow-hidden py-16">
       {/* Background Motifs & Blobs */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none flex items-center justify-center">
         {/* Subtle Typing Effect Motif - Scaled down slightly and re-centered */}
@@ -171,14 +178,14 @@ export default function Home() {
             </motion.h2>
 
             <motion.div variants={itemVariants}>
-              <Link href="/contact" passHref legacyBehavior>
-                <motion.a
+              <Link href="/contact" className="inline-block">
+                <motion.div
                   whileHover={{ scale: 1.05, boxShadow: "0 0 25px rgba(227, 93, 91, 0.6)" }}
                   whileTap={{ scale: 0.95 }}
                   className="btn-primary text-lg px-8 py-4 inline-block"
                 >
                   Contact Me
-                </motion.a>
+                </motion.div>
               </Link>
             </motion.div>
           </motion.div>
@@ -224,6 +231,15 @@ export default function Home() {
           <ArrowDown className="h-4 w-4 sm:h-5 sm:w-5" />
         </motion.div>
       </motion.div>
+      </section>
+
+      {/* Additional Sections */}
+      <AboutSection id="about" />
+      <WorkSection id="work" />
+      <SkillsSection id="skills" />
+      <ProjectsSection id="projects" />
+      <CertificationsSection id="certifications" />
+      <ContactSection id="contact" />
     </main>
   );
 }
