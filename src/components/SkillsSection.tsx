@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, Variants, useInView, animate } from "framer-motion";
-import { skillsData } from "@/lib/skills";
+import { skillsData, Skill } from "@/lib/skills";
 import { useEffect, useRef, useState } from "react";
 
 const containerVariants: Variants = {
@@ -69,7 +69,7 @@ export default function SkillsSection({ id }: { id?: string }) {
   );
 }
 
-function SkillItem({ skill, index }: { skill: any; index: number }) {
+function SkillItem({ skill, index }: { skill: Skill; index: number }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { margin: "-50px" });
   const [count, setCount] = useState(0);

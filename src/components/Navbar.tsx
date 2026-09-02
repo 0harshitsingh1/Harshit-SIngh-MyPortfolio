@@ -13,6 +13,7 @@ const navLinks = [
   { name: "Skills", href: "#skills" },
   { name: "Projects", href: "#projects" },
   { name: "Certifications", href: "#certifications" },
+  { name: "Journey", href: "#journey" },
   { name: "Contact", href: "#contact" },
 ];
 
@@ -51,7 +52,7 @@ export default function Navbar() {
             {/* Logo */}
             <div className="flex-shrink-0">
               <Link href="#home" className="text-2xl font-bold tracking-tight">
-                <span className="text-white">Harshit</span>
+                <span className="text-white">Harshit&nbsp;</span>
                 <span className="text-[#e35d5b]">Singh</span>
               </Link>
             </div>

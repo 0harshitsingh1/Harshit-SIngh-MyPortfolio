@@ -1,13 +1,84 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Github, ExternalLink, X, Code2 } from "lucide-react";
+import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { ExternalLink, X, Code2 } from "lucide-react";
+
+const GithubIcon = ({ className }: { className?: string }) => (
+  <svg 
+    xmlns="http://www.w3.org/2000/svg" 
+    width="24" 
+    height="24" 
+    viewBox="0 0 24 24" 
+    fill="none" 
+    stroke="currentColor" 
+    strokeWidth="2" 
+    strokeLinecap="round" 
+    strokeLinejoin="round" 
+    className={className}
+  >
+    <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/>
+    <path d="M9 18c-4.51 2-5-2-7-2"/>
+  </svg>
+);
 import { projectsData, Project } from "@/lib/projects";
 import Image from "next/image";
 
+function TiltCard({ children, onClick, index, onMouseEnter, onMouseLeave, isBlurred }: { children: React.ReactNode; onClick: () => void; index: number; onMouseEnter: () => void; onMouseLeave: () => void; isBlurred: boolean }) {
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  const mouseXSpring = useSpring(x, { stiffness: 300, damping: 20 });
+  const mouseYSpring = useSpring(y, { stiffness: 300, damping: 20 });
+
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["7.5deg", "-7.5deg"]);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-7.5deg", "7.5deg"]);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+    const xPct = mouseX / width - 0.5;
+    const yPct = mouseY / height - 0.5;
+    x.set(xPct);
+    y.set(yPct);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+    onMouseLeave();
+  };
+
+  return (
+    <motion.div
+      style={{
+        rotateX,
+        rotateY,
+        transformStyle: "preserve-3d",
+      }}
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.1 }}
+      transition={{ duration: 0.6, delay: index * 0.1, ease: "easeOut" }}
+      onMouseMove={handleMouseMove}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onClick={onClick}
+      className={`glass-card flex flex-col cursor-pointer group transition-all duration-300 hover:border-[#e35d5b]/50 hover:shadow-[0_0_30px_rgba(227,93,91,0.15)] z-10 ${isBlurred ? "blur-[2px] opacity-70 scale-[0.99] !z-0" : ""}`}
+    >
+      <div style={{ transform: "translateZ(30px)" }} className="w-full h-full flex flex-col">
+        {children}
+      </div>
+    </motion.div>
+  );
+}
+
 export default function ProjectsSection({ id }: { id?: string }) {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   // Close modal on escape key
   useEffect(() => {
@@ -47,37 +118,34 @@ export default function ProjectsSection({ id }: { id?: string }) {
         {/* Projects Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {projectsData.map((project, index) => (
-            <motion.div
+            <TiltCard
               key={project.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.1 }}
-              transition={{ duration: 0.6, delay: index * 0.1, ease: "easeOut" }}
+              index={index}
               onClick={() => setSelectedProject(project)}
-              className="glass-card flex flex-col cursor-pointer group transition-all duration-300 hover:scale-[1.02] hover:border-[#e35d5b]/50 hover:shadow-[0_0_30px_rgba(227,93,91,0.15)]"
+              onMouseEnter={() => setHoveredIndex(index)}
+              onMouseLeave={() => setHoveredIndex(null)}
+              isBlurred={hoveredIndex !== null && hoveredIndex !== index}
             >
               {/* Thumbnail Area */}
               <div className="w-full h-48 bg-[#0a0a0f] rounded-lg mb-6 flex items-center justify-center border border-white/5 overflow-hidden relative">
-                {/* Fallback Icon if Image doesn't load/exist */}
-                <Code2 className="w-12 h-12 text-white/10 absolute" />
-                <div className="absolute inset-0 bg-gradient-to-tr from-[#e35d5b]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                
-                {/* 
-                  Since we don't have actual images yet, I will comment this out to prevent broken images. 
-                  Uncomment and add real images when ready.
-                */}
-                {/* <Image 
+                <Image 
                   src={project.imageUrl} 
                   alt={project.title} 
                   fill 
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   className="object-cover opacity-80 group-hover:opacity-100 transition-opacity" 
-                /> */}
+                />
               </div>
 
               {/* Content */}
-              <h3 className="text-xl font-bold text-white mb-2 group-hover:text-[#e35d5b] transition-colors">
-                {project.title}
-              </h3>
+              <div className="flex justify-between items-start mb-2 gap-4">
+                <h3 className="text-xl font-bold text-white group-hover:text-[#e35d5b] transition-colors">
+                  {project.title}
+                </h3>
+                <span className={`shrink-0 px-2 py-1 text-[10px] uppercase tracking-wider font-semibold rounded-full border ${project.status === "Completed" ? "bg-green-500/10 text-green-400 border-green-500/20" : "bg-yellow-500/10 text-yellow-400 border-yellow-500/20"}`}>
+                  {project.status}
+                </span>
+              </div>
               <p className="text-gray-400 text-sm mb-6 flex-grow line-clamp-2">
                 {project.shortDescription}
               </p>
@@ -98,7 +166,7 @@ export default function ProjectsSection({ id }: { id?: string }) {
                   </span>
                 )}
               </div>
-            </motion.div>
+            </TiltCard>
           ))}
         </div>
       </div>
@@ -132,20 +200,20 @@ export default function ProjectsSection({ id }: { id?: string }) {
                 >
                   <X className="w-5 h-5" />
                 </button>
-                <Code2 className="w-20 h-20 text-white/10" />
-                
-                {/* 
-                  Uncomment when images are ready:
-                  <Image src={selectedProject.imageUrl} alt={selectedProject.title} fill className="object-cover opacity-60" /> 
-                */}
+                <Image src={selectedProject.imageUrl} alt={selectedProject.title} fill sizes="(max-width: 768px) 100vw, 800px" className="object-cover opacity-60" />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0f] to-transparent" />
               </div>
 
               {/* Scrollable Body */}
               <div className="p-6 sm:p-8 overflow-y-auto flex-grow custom-scrollbar">
-                <h3 className="text-2xl sm:text-3xl font-bold text-white mb-4">
-                  {selectedProject.title}
-                </h3>
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
+                  <h3 className="text-2xl sm:text-3xl font-bold text-white">
+                    {selectedProject.title}
+                  </h3>
+                  <span className={`w-fit shrink-0 px-3 py-1 text-xs uppercase tracking-wider font-semibold rounded-full border ${selectedProject.status === "Completed" ? "bg-green-500/10 text-green-400 border-green-500/20" : "bg-yellow-500/10 text-yellow-400 border-yellow-500/20"}`}>
+                    {selectedProject.status}
+                  </span>
+                </div>
                 
                 <div className="flex flex-wrap gap-2 mb-8">
                   {selectedProject.techStack.map((tech) => (
@@ -170,11 +238,11 @@ export default function ProjectsSection({ id }: { id?: string }) {
                     rel="noopener noreferrer"
                     className="flex-1 inline-flex items-center justify-center gap-2 rounded-full border border-white/20 bg-white/5 hover:bg-white/10 text-white px-6 py-3 font-medium transition-all active:scale-95"
                   >
-                    <Github className="w-5 h-5" />
+                    <GithubIcon className="w-5 h-5" />
                     <span>View on GitHub</span>
                   </a>
 
-                  {selectedProject.liveUrl ? (
+                  {selectedProject.liveUrl && (
                     <a 
                       href={selectedProject.liveUrl} 
                       target="_blank" 
@@ -184,14 +252,6 @@ export default function ProjectsSection({ id }: { id?: string }) {
                       <ExternalLink className="w-5 h-5" />
                       <span>Live Demo</span>
                     </a>
-                  ) : (
-                    <button 
-                      disabled
-                      className="flex-1 inline-flex items-center justify-center gap-2 rounded-full bg-white/5 border border-white/5 text-gray-500 px-6 py-3 font-medium cursor-not-allowed"
-                    >
-                      <ExternalLink className="w-5 h-5 opacity-50" />
-                      <span>Coming Soon</span>
-                    </button>
                   )}
                 </div>
               </div>

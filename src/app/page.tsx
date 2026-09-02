@@ -9,6 +9,7 @@ import WorkSection from "@/components/WorkSection";
 import SkillsSection from "@/components/SkillsSection";
 import ProjectsSection from "@/components/ProjectsSection";
 import CertificationsSection from "@/components/CertificationsSection";
+import JourneySection from "@/components/JourneySection";
 import ContactSection from "@/components/ContactSection";
 
 const roles = ["Tech Enthusiast", "Developer", "Designer", "Coder", "Problem solver"];
@@ -41,8 +42,10 @@ export default function Home() {
 
     if (isDeleting) {
       if (text === "") {
-        setIsDeleting(false);
-        setCurrentRoleIndex((prev) => (prev + 1) % roles.length);
+        timeoutId = setTimeout(() => {
+          setIsDeleting(false);
+          setCurrentRoleIndex((prev) => (prev + 1) % roles.length);
+        }, 50); // Small delay to avoid synchronous state update in effect
       } else {
         timeoutId = setTimeout(() => {
           setText(currentFullRole.substring(0, text.length - 1));
@@ -235,10 +238,11 @@ export default function Home() {
 
       {/* Additional Sections */}
       <AboutSection id="about" />
-      <WorkSection id="work" />
+      <WorkSection id="experience" />
       <SkillsSection id="skills" />
       <ProjectsSection id="projects" />
       <CertificationsSection id="certifications" />
+      <JourneySection id="journey" />
       <ContactSection id="contact" />
     </main>
   );

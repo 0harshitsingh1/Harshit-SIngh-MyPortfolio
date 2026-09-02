@@ -4,7 +4,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { User, MapPin, Mail, Send, Loader2 } from "lucide-react";
 
-export default function ContactSection({ id }: { id?: string }) {
+export default function ContactPage() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -48,37 +48,34 @@ export default function ContactSection({ id }: { id?: string }) {
   };
 
   return (
-    <section id={id || "contact"} className="min-h-[calc(100vh-64px)] bg-[#050508] relative overflow-hidden flex flex-col justify-center items-center py-12 px-4 sm:px-6 lg:px-8">
+    <main className="min-h-[calc(100vh-64px)] bg-[#050508] relative overflow-hidden flex flex-col justify-center items-center py-12 px-4 sm:px-6 lg:px-8">
       {/* Background Motifs */}
       <div className="absolute top-0 right-1/4 w-[600px] h-[600px] bg-[#e35d5b]/10 blur-[150px] rounded-full pointer-events-none" />
       <div className="absolute bottom-0 left-1/4 w-[500px] h-[500px] bg-[#9333ea]/10 blur-[120px] rounded-full pointer-events-none" />
 
       {/* Main Panel */}
-      <motion.div
+      <motion.div 
         initial={{ opacity: 0, scale: 0.95, y: 20 }}
-        whileInView={{ opacity: 1, scale: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.1 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
         className="relative z-10 w-full max-w-[1200px] bg-[#0a0a0f]/80 backdrop-blur-xl border border-white/10 rounded-3xl overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)]"
       >
         <div className="flex flex-col lg:flex-row">
-
+          
           {/* LEFT SIDE - Info */}
           <div className="w-full lg:w-5/12 p-10 lg:p-16 bg-[#12121c]/80 flex flex-col justify-center relative overflow-hidden border-b lg:border-b-0 lg:border-r border-white/5">
             <div className="relative z-10">
-              <motion.h2
+              <motion.h2 
                 initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
+                animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.2, duration: 0.5 }}
                 className="text-4xl sm:text-5xl font-bold mb-4 text-white tracking-tight"
               >
                 Get in Touch
               </motion.h2>
-              <motion.p
+              <motion.p 
                 initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
+                animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.3, duration: 0.5 }}
                 className="text-[#e35d5b] font-medium text-lg mb-12"
               >
@@ -87,10 +84,9 @@ export default function ContactSection({ id }: { id?: string }) {
 
               <div className="space-y-8">
                 {/* Info Row 1 */}
-                <motion.div
+                <motion.div 
                   initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
+                  animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.4, duration: 0.5 }}
                   className="flex items-center gap-6"
                 >
@@ -104,10 +100,9 @@ export default function ContactSection({ id }: { id?: string }) {
                 </motion.div>
 
                 {/* Info Row 2 */}
-                <motion.div
+                <motion.div 
                   initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
+                  animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.5, duration: 0.5 }}
                   className="flex items-center gap-6"
                 >
@@ -121,10 +116,9 @@ export default function ContactSection({ id }: { id?: string }) {
                 </motion.div>
 
                 {/* Info Row 3 */}
-                <motion.div
+                <motion.div 
                   initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
+                  animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.6, duration: 0.5 }}
                   className="flex items-center gap-6"
                 >
@@ -138,17 +132,16 @@ export default function ContactSection({ id }: { id?: string }) {
                 </motion.div>
               </div>
             </div>
-
+            
             {/* Subtle accent blob in background of left panel */}
             <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-[#e35d5b]/10 blur-[80px] rounded-full" />
           </div>
 
           {/* RIGHT SIDE - Form */}
           <div className="w-full lg:w-7/12 p-10 lg:p-16">
-            <motion.h3
+            <motion.h3 
               initial={{ opacity: 0, y: -10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.5 }}
               className="text-2xl font-bold text-white mb-8"
             >
@@ -157,10 +150,9 @@ export default function ContactSection({ id }: { id?: string }) {
 
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <motion.div
+                <motion.div 
                   initial={{ opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
+                  animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4, duration: 0.5 }}
                 >
                   <input
@@ -174,10 +166,9 @@ export default function ContactSection({ id }: { id?: string }) {
                   />
                 </motion.div>
 
-                <motion.div
+                <motion.div 
                   initial={{ opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
+                  animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.5, duration: 0.5 }}
                 >
                   <input
@@ -192,10 +183,9 @@ export default function ContactSection({ id }: { id?: string }) {
                 </motion.div>
               </div>
 
-              <motion.div
+              <motion.div 
                 initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6, duration: 0.5 }}
               >
                 <input
@@ -208,10 +198,9 @@ export default function ContactSection({ id }: { id?: string }) {
                 />
               </motion.div>
 
-              <motion.div
+              <motion.div 
                 initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.7, duration: 0.5 }}
               >
                 <textarea
@@ -225,10 +214,9 @@ export default function ContactSection({ id }: { id?: string }) {
                 />
               </motion.div>
 
-              <motion.div
+              <motion.div 
                 initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.8, duration: 0.5 }}
                 className="flex items-center justify-between"
               >
@@ -264,15 +252,14 @@ export default function ContactSection({ id }: { id?: string }) {
       </motion.div>
 
       {/* Footer */}
-      <motion.div
+      <motion.div 
         initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
+        animate={{ opacity: 1 }}
         transition={{ delay: 1, duration: 1 }}
         className="mt-12 text-center text-[#e35d5b] font-medium tracking-widest uppercase text-sm"
       >
         © Harshit Singh
       </motion.div>
-    </section>
+    </main>
   );
 }

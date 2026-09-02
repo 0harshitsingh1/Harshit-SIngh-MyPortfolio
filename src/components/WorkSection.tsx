@@ -1,24 +1,46 @@
 "use client";
 
 import { motion, Variants } from "framer-motion";
-import { GitBranch, Code2, Terminal } from "lucide-react";
+import { GitBranch, Code2, Briefcase } from "lucide-react";
 import Link from "next/link";
+
+const LinkedinIcon = ({ className }: { className?: string }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+  >
+    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+    <rect width="4" height="12" x="2" y="9" />
+    <circle cx="4" cy="4" r="2" />
+  </svg>
+);
 
 const workProfiles = [
   {
     name: "GitHub",
     icon: <GitBranch className="w-16 h-16 mb-4 text-[#e35d5b] transition-transform duration-300 group-hover:scale-110 group-hover:-translate-y-2" />,
-    url: "https://github.com/YOUR_USERNAME",
+    url: "https://github.com/0harshitsingh1",
   },
   {
     name: "LeetCode",
     icon: <Code2 className="w-16 h-16 mb-4 text-[#e35d5b] transition-transform duration-300 group-hover:scale-110 group-hover:-translate-y-2" />,
-    url: "https://leetcode.com/YOUR_USERNAME",
+    url: "https://leetcode.com/u/0harshitsingh1/",
   },
   {
-    name: "GeeksforGeeks",
-    icon: <Terminal className="w-16 h-16 mb-4 text-[#e35d5b] transition-transform duration-300 group-hover:scale-110 group-hover:-translate-y-2" />,
-    url: "https://www.geeksforgeeks.org/user/YOUR_USERNAME",
+    name: "LinkedIn",
+    icon: <LinkedinIcon className="w-16 h-16 mb-4 text-[#e35d5b] transition-transform duration-300 group-hover:scale-110 group-hover:-translate-y-2" />,
+    url: "https://www.linkedin.com/in/harshit-singh03/",
+  },
+  {
+    name: "Naukri",
+    icon: <Briefcase className="w-16 h-16 mb-4 text-[#e35d5b] transition-transform duration-300 group-hover:scale-110 group-hover:-translate-y-2" />,
+    url: "https://www.naukri.com/mnjuser/profile?id=&altresid",
   },
 ];
 
@@ -27,7 +49,7 @@ const containerVariants: Variants = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.2,
+      staggerChildren: 0.15,
     },
   },
 };
@@ -61,7 +83,7 @@ export default function WorkSection({ id }: { id?: string }) {
         />
       </div>
 
-      <div className="relative z-10 w-full max-w-5xl px-4 sm:px-6 lg:px-8 flex flex-col items-center">
+      <div className="relative z-10 w-full max-w-6xl px-4 sm:px-6 lg:px-8 flex flex-col items-center">
         
         {/* Section Heading */}
         <motion.div
@@ -83,12 +105,12 @@ export default function WorkSection({ id }: { id?: string }) {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-50px" }}
-          className="w-full grid grid-cols-1 md:grid-cols-3 gap-8"
+          className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
         >
           {workProfiles.map((profile) => (
             <motion.div key={profile.name} variants={itemVariants}>
               <Link href={profile.url} target="_blank" rel="noopener noreferrer" className="block outline-none group h-full">
-                <div className="glass-card flex flex-col items-center justify-center py-14 px-8 h-full transition-all duration-300 hover:-translate-y-2 hover:border-[#e35d5b]/50 hover:shadow-[0_0_30px_rgba(227,93,91,0.2)] hover:bg-white/10 relative overflow-hidden">
+                <div className="glass-card flex flex-col items-center justify-center py-12 px-6 h-full transition-all duration-300 hover:-translate-y-2 hover:border-[#e35d5b]/50 hover:shadow-[0_0_30px_rgba(227,93,91,0.2)] hover:bg-white/10 relative overflow-hidden">
                   
                   {/* Subtle hover background gradient */}
                   <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#e35d5b]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
