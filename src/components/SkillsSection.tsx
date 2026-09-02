@@ -25,6 +25,8 @@ export default function SkillsSection({ id }: { id?: string }) {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  const containerHeight = scale === 0.5 ? 320 : scale === 0.8 ? 500 : 600;
+
   return (
     <section 
       id={id || "skills"} 
@@ -57,7 +59,10 @@ export default function SkillsSection({ id }: { id?: string }) {
         </div>
 
         {/* Orbit Visualization Container */}
-        <div className="relative flex items-center justify-center w-full h-[600px] mt-4">
+        <div 
+          className="relative flex items-center justify-center w-full mt-4 transition-all duration-500" 
+          style={{ height: `${containerHeight}px` }}
+        >
           
           <div 
             className="relative flex items-center justify-center origin-center transition-transform duration-500 ease-out"

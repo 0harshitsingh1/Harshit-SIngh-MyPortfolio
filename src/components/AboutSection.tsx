@@ -58,16 +58,16 @@ export default function AboutSection({ id }: { id?: string }) {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-6 w-full sm:w-auto">
-              <Link href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="inline-block">
+              <Link href="https://drive.google.com/file/d/1ZifqK2QhwuiWrzFSHf91eywjB7YgU_LL/view?usp=sharing" target="_blank" rel="noopener noreferrer" className="inline-block">
                 <motion.div
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   className="btn-secondary text-lg px-8 py-3 inline-block"
                 >
-                  LinkedIn
+                  Resume
                 </motion.div>
               </Link>
-              <Link href="/contact" className="inline-block">
+              <a href="#contact" className="inline-block">
                 <motion.div
                   whileHover={{ scale: 1.05, boxShadow: "0 0 25px rgba(227, 93, 91, 0.4)" }}
                   whileTap={{ scale: 0.95 }}
@@ -75,7 +75,7 @@ export default function AboutSection({ id }: { id?: string }) {
                 >
                   Get in touch
                 </motion.div>
-              </Link>
+              </a>
             </div>
           </motion.div>
 

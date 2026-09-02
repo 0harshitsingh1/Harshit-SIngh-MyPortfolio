@@ -181,7 +181,7 @@ export default function Home() {
             </motion.h2>
 
             <motion.div variants={itemVariants}>
-              <Link href="/contact" className="inline-block">
+              <a href="#contact" className="inline-block">
                 <motion.div
                   whileHover={{ scale: 1.05, boxShadow: "0 0 25px rgba(227, 93, 91, 0.6)" }}
                   whileTap={{ scale: 0.95 }}
@@ -189,7 +189,7 @@ export default function Home() {
                 >
                   Contact Me
                 </motion.div>
-              </Link>
+              </a>
             </motion.div>
           </motion.div>
 
