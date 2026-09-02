@@ -263,16 +263,6 @@ export default function ContactSection({ id }: { id?: string }) {
         </div>
       </motion.div>
 
-      {/* Footer */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ delay: 1, duration: 1 }}
-        className="mt-12 text-center text-[#e35d5b] font-medium tracking-widest uppercase text-sm"
-      >
-        © Harshit Singh
-      </motion.div>
     </section>
   );
 }

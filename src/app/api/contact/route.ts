@@ -56,7 +56,7 @@ export async function POST(req: NextRequest) {
       : `New portfolio message from ${name.trim()}`;
 
     await transporter.sendMail({
-      from: `"Portfolio Contact Form" <${process.env.SMTP_USER}>`,
+      from: `"${name} (Portfolio)" <${process.env.SMTP_USER}>`,
       to: process.env.CONTACT_RECEIVER_EMAIL,
       // Intentional: Set replyTo to the submitter's email so that clicking "Reply"
       // in the inbox goes to the user, rather than back to your own address.

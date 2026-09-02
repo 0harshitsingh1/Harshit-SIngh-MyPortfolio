@@ -238,11 +238,11 @@ export default function Home() {
 
       {/* Additional Sections */}
       <AboutSection id="about" />
-      <WorkSection id="experience" />
+      <JourneySection id="journey" />
       <SkillsSection id="skills" />
       <ProjectsSection id="projects" />
-      <CertificationsSection id="certifications" />
-      <JourneySection id="journey" />
+      <WorkSection id="experience" />
+      {/* <CertificationsSection id="certifications" /> */}
       <ContactSection id="contact" />
     </main>
   );

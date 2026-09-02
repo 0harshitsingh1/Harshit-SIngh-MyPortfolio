@@ -23,6 +23,11 @@ const LinkedinIcon = ({ className }: { className?: string }) => (
 
 const workProfiles = [
   {
+    name: "LinkedIn",
+    icon: <LinkedinIcon className="w-16 h-16 mb-4 text-[#e35d5b] transition-transform duration-300 group-hover:scale-110 group-hover:-translate-y-2" />,
+    url: "https://www.linkedin.com/in/harshit-singh03/",
+  },
+  {
     name: "GitHub",
     icon: <GitBranch className="w-16 h-16 mb-4 text-[#e35d5b] transition-transform duration-300 group-hover:scale-110 group-hover:-translate-y-2" />,
     url: "https://github.com/0harshitsingh1",
@@ -31,11 +36,6 @@ const workProfiles = [
     name: "LeetCode",
     icon: <Code2 className="w-16 h-16 mb-4 text-[#e35d5b] transition-transform duration-300 group-hover:scale-110 group-hover:-translate-y-2" />,
     url: "https://leetcode.com/u/0harshitsingh1/",
-  },
-  {
-    name: "LinkedIn",
-    icon: <LinkedinIcon className="w-16 h-16 mb-4 text-[#e35d5b] transition-transform duration-300 group-hover:scale-110 group-hover:-translate-y-2" />,
-    url: "https://www.linkedin.com/in/harshit-singh03/",
   },
   {
     name: "Naukri",
