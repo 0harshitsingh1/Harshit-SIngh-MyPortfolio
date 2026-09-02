@@ -22,7 +22,7 @@ export const educationData: Education[] = [
     location: "Bangalore, India",
     duration: "2023 - 2027",
     scoreType: "CGPA",
-    score: "8.3 / 10",
+    score: "8.3 / 10", // Placeholder: User can customize or provide exact score
     field: "Information Science & Engineering",
     description: [
       "Focused on Core Java, Data Structures & Algorithms, Database Management Systems, and Web Technologies.",
@@ -46,7 +46,7 @@ export const educationData: Education[] = [
       "Strong analytical foundation in Mathematics and Physics.",
       "Developed an early passion for problem-solving and computer science fundamentals."
     ],
-    skills: ["Mathematics", "Physics", "Computer Fundamentals", "Analytical Problem Solving"],
+    skills: ["Mathematics", "Physics", "Computer Fundamentals"],
     featured: false,
   },
   {
@@ -55,9 +55,9 @@ export const educationData: Education[] = [
     degree: "Class X (Matriculation)",
     institution: "High School",
     location: "India",
-    duration: "2019 - 2020",
+    duration: "2020 - 2021",
     scoreType: "Percentage",
-    score: "90%", // Placeholder: User can customize
+    score: "82%", // Placeholder: User can customize
     field: "General Science & Mathematics",
     description: [
       "Graduated with distinction with high academic standing across science and mathematics.",
