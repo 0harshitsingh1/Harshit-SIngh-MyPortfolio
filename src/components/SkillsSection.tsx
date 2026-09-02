@@ -1,114 +1,138 @@
 "use client";
 
-import { motion, Variants, useInView, animate } from "framer-motion";
-import { skillsData, Skill } from "@/lib/skills";
-import { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
+import { skillsData } from "@/lib/skills";
+import { Code2, Zap } from "lucide-react";
+import { useState, useEffect } from "react";
 
-const containerVariants: Variants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-  },
-};
-
-const barVariants: Variants = {
-  hidden: { opacity: 0, x: 20 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.5, ease: "easeOut" } },
-};
+// Helper to group skills into 3 orbits
+const orbit1Skills = skillsData.slice(0, 3);
+const orbit2Skills = skillsData.slice(3, 7);
+const orbit3Skills = skillsData.slice(7, 11);
 
 export default function SkillsSection({ id }: { id?: string }) {
+  // Mobile scaling detection for the orbit container
+  const [scale, setScale] = useState(1);
+  
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 640) setScale(0.5);
+      else if (window.innerWidth < 1024) setScale(0.8);
+      else setScale(1);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
     <section 
       id={id || "skills"} 
-      className="min-h-[calc(100vh-64px)] flex items-center py-20 relative overflow-hidden bg-[#0a0a0f]"
+      className="min-h-screen py-24 relative overflow-hidden bg-[#050508] flex flex-col items-center justify-center"
     >
-      {/* Background decoration */}
-      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#e35d5b]/5 blur-[120px] rounded-full pointer-events-none" />
+      {/* Intense Core Glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-tr from-[#e35d5b]/10 via-[#9333ea]/5 to-transparent blur-[120px] rounded-full pointer-events-none" />
 
-      <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          
-          {/* Left Column: Bio Text */}
+      <div className="mx-auto w-full max-w-[1200px] px-4 relative z-10 flex flex-col items-center">
+        
+        {/* Header */}
+        <div className="flex flex-col items-center text-center mb-10 z-20">
           <motion.div
-            initial={{ opacity: 0, x: -40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: false, amount: 0.3 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            className="flex flex-col space-y-6"
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#e35d5b]/10 border border-[#e35d5b]/20 text-[#e35d5b] text-xs font-semibold uppercase tracking-wider mb-4"
           >
-            <div className="mb-8">
-              <h2 className="text-4xl sm:text-5xl font-bold mb-4 tracking-tight text-white">
-                My Skills
-              </h2>
-              <div className="w-20 h-1.5 bg-[#e35d5b] rounded-full" />
-            </div>
-
-            <div className="space-y-4 text-gray-300 text-lg leading-relaxed">
-              <p>
-                I have a strong foundation in both frontend and backend development, with experience in building responsive user interfaces and developing reliable, scalable backend applications. I am passionate about writing clean, maintainable code and continuously expanding my knowledge by learning new technologies, improving my problem-solving skills, and taking on new challenges.
-              </p>
-            </div>
+            <Zap className="w-3.5 h-3.5" />
+            <span>Tech Ecosystem</span>
           </motion.div>
-
-          {/* Right Column: Skill Bars */}
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: false, amount: 0.2 }}
-            className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-x-8 gap-y-6"
+          <motion.h2
+            initial={{ opacity: 0, y: -20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white"
           >
-            {skillsData.map((skill, index) => (
-              <SkillItem key={skill.name} skill={skill} index={index} />
-            ))}
-          </motion.div>
-
+            Skill <span className="text-gradient">Orbit</span>
+          </motion.h2>
         </div>
+
+        {/* Orbit Visualization Container */}
+        <div className="relative flex items-center justify-center w-full h-[600px] mt-4">
+          
+          <div 
+            className="relative flex items-center justify-center origin-center transition-transform duration-500 ease-out"
+            style={{ transform: `scale(${scale})` }}
+          >
+            
+            {/* Center Node */}
+            <div className="absolute z-50 flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-[#e35d5b] to-[#f59e0b] shadow-[0_0_50px_rgba(227,93,91,0.6)] border-4 border-[#050508]">
+              <Code2 className="w-8 h-8 text-white" />
+            </div>
+
+            {/* ORBIT 1 (Inner) */}
+            <OrbitRing radius={120} duration={25} reverse={false} skills={orbit1Skills} />
+            
+            {/* ORBIT 2 (Middle) */}
+            <OrbitRing radius={210} duration={35} reverse={true} skills={orbit2Skills} />
+            
+            {/* ORBIT 3 (Outer) */}
+            <OrbitRing radius={300} duration={45} reverse={false} skills={orbit3Skills} />
+
+          </div>
+        </div>
+
       </div>
     </section>
   );
 }
 
-function SkillItem({ skill, index }: { skill: Skill; index: number }) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { margin: "-50px" });
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    if (isInView) {
-      const controls = animate(0, skill.level, {
-        duration: 1.5,
-        ease: [0.16, 1, 0.3, 1],
-        onUpdate: (value) => setCount(Math.round(value)),
-      });
-      return controls.stop;
-    }
-  }, [isInView, skill.level, index]);
-
+function OrbitRing({ radius, duration, reverse, skills }: { radius: number; duration: number; reverse: boolean; skills: any[] }) {
   return (
-    <motion.div 
-      ref={ref}
-      variants={barVariants} 
-      whileHover={{ scale: 1.03, x: 5 }}
-      className="w-full group cursor-default"
+    <div 
+      className="absolute flex items-center justify-center rounded-full border border-white/5 shadow-[inset_0_0_20px_rgba(255,255,255,0.02)] pointer-events-none"
+      style={{ width: radius * 2, height: radius * 2 }}
     >
-      <div className="flex justify-between items-end mb-3 transition-colors duration-300 group-hover:text-[#e35d5b]">
-        <span className="text-white text-lg font-medium group-hover:text-white transition-colors">{skill.name}</span>
-        <span className="text-[#e35d5b] font-bold group-hover:text-white transition-colors">{count}%</span>
-      </div>
-      {/* Track */}
-      <div className="h-4 w-full bg-[#1a1a24] rounded-full overflow-hidden relative border border-white/5 shadow-inner transition-all duration-300 group-hover:bg-[#20202e] group-hover:border-[#e35d5b]/30 group-hover:shadow-[0_0_15px_rgba(227,93,91,0.2)]">
-        {/* Fill */}
-        <motion.div
-          initial={{ width: 0 }}
-          animate={isInView ? { width: `${skill.level}%` } : { width: 0 }}
-          transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }} 
-          className="h-full bg-gradient-to-r from-[#e35d5b] via-[#ff7a78] to-[#e35d5b] rounded-full relative bg-[length:200%_auto] animate-gradient-flow"
-        >
-          {/* Leading edge glow indicator */}
-          <div className="absolute right-1 top-1/2 -translate-y-1/2 w-2 h-2 bg-white rounded-full shadow-[0_0_10px_4px_rgba(255,255,255,0.6)] animate-pulse" />
-        </motion.div>
-      </div>
-    </motion.div>
+      {/* Animated Ring Rotation */}
+      <motion.div
+        animate={{ rotate: reverse ? -360 : 360 }}
+        transition={{ duration, repeat: Infinity, ease: "linear" }}
+        className="absolute inset-0 w-full h-full rounded-full pointer-events-none"
+      >
+        {skills.map((skill, i) => {
+          const angle = (i / skills.length) * 360;
+          
+          return (
+            <div
+              key={skill.name}
+              className="absolute top-1/2 left-1/2 pointer-events-none"
+              style={{
+                transform: `rotate(${angle}deg) translate(${radius}px) rotate(-${angle}deg)`,
+              }}
+            >
+              {/* Counter-rotate the inner element so it stays upright! */}
+              <motion.div
+                animate={{ rotate: reverse ? 360 : -360 }}
+                transition={{ duration, repeat: Infinity, ease: "linear" }}
+                className="absolute -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+              >
+                <div className="group flex flex-col items-center justify-center w-[85px] h-[85px] rounded-full bg-[#0e0e17]/80 border border-white/10 backdrop-blur-md hover:bg-[#e35d5b]/20 hover:border-[#e35d5b]/50 hover:scale-[1.35] hover:z-50 transition-all duration-300 shadow-[0_0_15px_rgba(0,0,0,0.5)] cursor-pointer pointer-events-auto">
+                  
+                  {/* Default State: Skill Name */}
+                  <span className="text-xs font-bold text-gray-300 text-center absolute opacity-100 group-hover:opacity-0 transition-opacity duration-300 px-1 drop-shadow-md">
+                    {skill.name}
+                  </span>
+
+                  {/* Hover State: Big Percentage */}
+                  <span className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#e35d5b] to-[#f59e0b] absolute opacity-0 group-hover:opacity-100 transition-opacity duration-300 drop-shadow-[0_0_10px_rgba(245,158,11,0.8)]">
+                    {skill.level}%
+                  </span>
+                  
+                </div>
+              </motion.div>
+            </div>
+          );
+        })}
+      </motion.div>
+    </div>
   );
 }
