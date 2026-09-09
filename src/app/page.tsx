@@ -242,7 +242,7 @@ export default function Home() {
       <SkillsSection id="skills" />
       <ProjectsSection id="projects" />
       <WorkSection id="experience" />
-      {/* <CertificationsSection id="certifications" /> */}
+      <CertificationsSection id="certifications" />
       <ContactSection id="contact" />
     </main>
   );
