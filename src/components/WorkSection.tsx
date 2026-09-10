@@ -118,9 +118,7 @@ export default function WorkSection({ id }: { id?: string }) {
                   <div className="relative z-10 flex flex-col items-center text-center">
                     {profile.icon}
                     <h2 className="text-2xl font-bold text-white mb-2">{profile.name}</h2>
-                    <span className="text-sm text-gray-500 group-hover:text-[#e35d5b] transition-colors duration-300 tracking-wide uppercase font-medium">
-                      click me &rarr;
-                    </span>
+
                   </div>
                 </div>
               </Link>
