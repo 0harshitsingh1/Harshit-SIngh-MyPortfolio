@@ -40,18 +40,13 @@ const ParticleBackground: React.FC = () => {
       vx: number;
       vy: number;
       radius: number;
-      baseAlpha: number;
 
       constructor(width: number, height: number) {
         this.x = Math.random() * width;
         this.y = Math.random() * height;
-        // Extremely slow, fluid drift
-        this.vx = (Math.random() - 0.5) * 0.15;
-        this.vy = (Math.random() - 0.5) * 0.15;
-        // Tiny to small dots for a refined look
-        this.radius = Math.random() * 1.2 + 0.4; 
-        // Varied opacity to simulate depth
-        this.baseAlpha = Math.random() * 0.6 + 0.1; 
+        this.vx = (Math.random() - 0.5) * 0.8; // subtle movement
+        this.vy = (Math.random() - 0.5) * 0.8;
+        this.radius = Math.random() * 1.5 + 0.5;
       }
 
       update(width: number, height: number) {
@@ -87,26 +82,13 @@ const ParticleBackground: React.FC = () => {
 
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      
-      particles.forEach(p => p.update(canvas.width, canvas.height));
-      
-      for (let i = 0; i < particles.length; i++) {
-        // Connect to mouse for interactivity
-        const dxMouse = particles[i].x - mouse.x;
-        const dyMouse = particles[i].y - mouse.y;
-        const distMouse = Math.sqrt(dxMouse * dxMouse + dyMouse * dyMouse);
-        
-        if (distMouse < 140) {
-          ctx.beginPath();
-          ctx.moveTo(particles[i].x, particles[i].y);
-          ctx.lineTo(mouse.x, mouse.y);
-          const opacity = (1 - (distMouse / 140)) * 0.15;
-          ctx.strokeStyle = `rgba(167, 139, 250, ${opacity})`;
-          ctx.lineWidth = 0.5;
-          ctx.stroke();
-        }
 
-        // Connect to other particles
+      // Update particles first
+      particles.forEach(p => p.update(canvas.width, canvas.height));
+
+      // Draw lines
+      ctx.shadowBlur = 0; // Turn off shadow for lines to keep it clean
+      for (let i = 0; i < particles.length; i++) {
         for (let j = i + 1; j < particles.length; j++) {
           const dx = particles[i].x - particles[j].x;
           const dy = particles[i].y - particles[j].y;
@@ -116,15 +98,17 @@ const ParticleBackground: React.FC = () => {
             ctx.beginPath();
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
-            // Very subtle connection lines to keep it looking clean
-            const opacity = (1 - (distance / maxDistance)) * 0.12;
-            ctx.strokeStyle = `rgba(167, 139, 250, ${opacity})`; 
-            ctx.lineWidth = 0.5;
+            // Opacity based on distance
+            const opacity = (1 - (distance / maxDistance)) * 0.3;
+            // Mixed with a subtle purple/blue for the connections
+            ctx.strokeStyle = `rgba(139, 92, 246, ${opacity})`;
+            ctx.lineWidth = 1;
             ctx.stroke();
           }
         }
       }
 
+      // Draw particles on top
       particles.forEach(p => p.draw(ctx));
 
       animationFrameId = requestAnimationFrame(animate);
@@ -141,8 +125,6 @@ const ParticleBackground: React.FC = () => {
 
     return () => {
       window.removeEventListener("resize", handleResize);
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("mouseout", handleMouseLeave);
       cancelAnimationFrame(animationFrameId);
     };
   }, []);
