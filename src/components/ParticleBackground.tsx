@@ -40,6 +40,7 @@ const ParticleBackground: React.FC = () => {
       vx: number;
       vy: number;
       radius: number;
+      baseAlpha: number;
 
       constructor(width: number, height: number) {
         this.x = Math.random() * width;
@@ -47,6 +48,7 @@ const ParticleBackground: React.FC = () => {
         this.vx = (Math.random() - 0.5) * 0.8; // subtle movement
         this.vy = (Math.random() - 0.5) * 0.8;
         this.radius = Math.random() * 1.5 + 0.5;
+        this.baseAlpha = Math.random() * 0.5 + 0.3;
       }
 
       update(width: number, height: number) {
