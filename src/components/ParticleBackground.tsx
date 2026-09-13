@@ -1,8 +1,10 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 
 const ParticleBackground: React.FC = () => {
+  const pathname = usePathname();
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -130,6 +132,10 @@ const ParticleBackground: React.FC = () => {
       cancelAnimationFrame(animationFrameId);
     };
   }, []);
+
+  if (pathname !== "/") {
+    return null;
+  }
 
   return (
     <canvas
