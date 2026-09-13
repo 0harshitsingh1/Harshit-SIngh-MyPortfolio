@@ -1,10 +1,8 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
-import { usePathname } from "next/navigation";
 
 const ParticleBackground: React.FC = () => {
-  const pathname = usePathname();
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -76,8 +74,9 @@ const ParticleBackground: React.FC = () => {
     let particles: Particle[] = [];
 
     const init = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      if (!canvas.parentElement) return;
+      canvas.width = canvas.parentElement.clientWidth;
+      canvas.height = canvas.parentElement.clientHeight;
       particles = [];
       for (let i = 0; i < particleCount; i++) {
         particles.push(new Particle(canvas.width, canvas.height));
@@ -133,14 +132,10 @@ const ParticleBackground: React.FC = () => {
     };
   }, []);
 
-  if (pathname !== "/") {
-    return null;
-  }
-
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 z-0 pointer-events-none w-full h-full"
+      className="absolute inset-0 z-0 pointer-events-none w-full h-full"
       style={{ background: "transparent" }}
     />
   );

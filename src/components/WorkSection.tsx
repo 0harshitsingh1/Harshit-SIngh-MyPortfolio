@@ -3,6 +3,7 @@
 import { motion, Variants } from "framer-motion";
 import { GitBranch, Code2, Briefcase } from "lucide-react";
 import Link from "next/link";
+import ParticleBackground from "./ParticleBackground";
 
 const LinkedinIcon = ({ className }: { className?: string }) => (
   <svg
@@ -62,6 +63,7 @@ const itemVariants: Variants = {
 export default function WorkSection({ id }: { id?: string }) {
   return (
     <section id={id || "work"} className="min-h-[calc(100vh-64px)] flex flex-col items-center justify-center py-20 overflow-hidden relative">
+      <ParticleBackground />
       
       {/* Background Motifs */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none flex items-center justify-center">

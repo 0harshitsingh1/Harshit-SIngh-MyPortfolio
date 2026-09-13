@@ -4,6 +4,7 @@ import { motion, useMotionValue, useTransform } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import ParticleBackground from "./ParticleBackground";
 
 export default function AboutSection({ id }: { id?: string }) {
   const x = useMotionValue(0);
@@ -27,6 +28,7 @@ export default function AboutSection({ id }: { id?: string }) {
 
   return (
     <section id={id || "about"} className="min-h-[calc(100vh-64px)] flex items-center justify-center py-20 overflow-hidden relative">
+      <ParticleBackground />
 
       {/* Faint Background element to keep it tied to the overall design */}
       <div className="absolute -left-[20%] top-[20%] w-[500px] h-[500px] rounded-full bg-[#e35d5b]/10 blur-[120px] pointer-events-none" />

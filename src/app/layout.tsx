@@ -3,7 +3,6 @@ import { Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import ParticleBackground from "@/components/ParticleBackground";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -67,7 +66,6 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${spaceGrotesk.variable} antialiased flex flex-col min-h-screen`}
       >
-        <ParticleBackground />
         <Navbar />
         <div className="flex-grow">
           {children}
